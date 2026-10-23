@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /video/generar.html
+
+Sitemap: https://danielduranmoya-spec.github.io/web-demo-floristeria/sitemap.xml

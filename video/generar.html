@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <title>Generador del vídeo «Así nace un ramo»</title>
+  <!--
+    Herramienta interna: dibuja el vídeo de la sección «Así nace un ramo»
+    cuadro a cuadro con las mismas flores 3D de la web (flores.js).
+    Uso: ?w=1280&h=720 y llamar a window.cuadro(segundos) para cada fotograma.
+    En la web no se carga; solo sirve para volver a generar el vídeo.
+  -->
+  <style>html, body { margin: 0; background: #000; } canvas { display: block; }</style>
+  <script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }
+  </script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { Flor, Ramo, geometriaPetalo, materialPetalo, azar } from '../flores.js';
+
+const q = new URLSearchParams(location.search);
+const W = +q.get('w') || 1280, H = +q.get('h') || 720;
+const DURACION = 8;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+const tramo = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+// fondo: degradado rubor
+const lienzo = document.createElement('canvas'); lienzo.width = 512; lienzo.height = 512;
+const g = lienzo.getContext('2d');
+const grad = g.createRadialGradient(256, 220, 20, 256, 256, 380);
+grad.addColorStop(0, '#FCEFF2'); grad.addColorStop(.55, '#F4D3DC'); grad.addColorStop(1, '#D98EA4');
+g.fillStyle = grad; g.fillRect(0, 0, 512, 512);
+const fondo = new THREE.CanvasTexture(lienzo); fondo.colorSpace = THREE.SRGBColorSpace;
+scene.background = fondo;
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
+scene.environmentIntensity = .45;
+const sol = new THREE.DirectionalLight(0xfff1e0, 2.4); sol.position.set(2, 4, 3);
+scene.add(sol, new THREE.HemisphereLight(0xffffff, 0xb89c86, .35));
+const camara = new THREE.PerspectiveCamera(34, W / H, .1, 80);
+
+// 1. la peonía protagonista
+const peonia = new Flor('peonia', 0xe07f9c, { seed: 11 });
+peonia.rotation.x = .9;
+scene.add(peonia);
+
+// 2. el ramo que se forma alrededor
+const ramo = new Ramo({ tipo: ['peonia', 'rosa', 'peonia', 'anemona'], colores: [0xe07f9c, 0xf0b9c7, 0xf08a7e, 0xf6f1ec], flores: 11, papel: 'kraft', seed: 9 });
+scene.add(ramo);
+const resto = ramo.children.filter(c => !ramo.flores.includes(c));
+ramo.updateMatrixWorld(true);
+const destino = ramo.flores[0].getWorldPosition(new THREE.Vector3());
+
+// 3. pétalos que caen
+const N = 70, rnd = azar(5);
+const caen = new THREE.InstancedMesh(geometriaPetalo({ largo: .4, ancho: .32, copa: .1, rizo: .08, segU: 6, segV: 5 }), materialPetalo(), N);
+const datos = [];
+const col = new THREE.Color();
+for (let i = 0; i < N; i++) {
+  caen.setColorAt(i, col.set([0xe8a0b4, 0xf3d0d8, 0xfbf4ea, 0xd77a93][i % 4]));
+  datos.push({ x: (rnd() - .5) * 14, y: rnd() * 12, z: (rnd() - .5) * 8 - 2, v: .5 + rnd() * .6, r: rnd() * 6, w: (rnd() - .5) * 3 });
+}
+scene.add(caen);
+const m = new THREE.Matrix4(), qq = new THREE.Quaternion(), e = new THREE.Euler(), v = new THREE.Vector3(), s = new THREE.Vector3();
+
+window.DURACION = DURACION;
+window.cuadro = function (t) {
+  // peonía: se abre de 0 a 3,6 s y viaja a su sitio en el ramo
+  const abre = ease(tramo(t, .2, 3.6));
+  peonia.setApertura(lerp(.1, 1, abre));
+  const viaja = ease(tramo(t, 3.6, 5.2));
+  peonia.position.lerpVectors(new THREE.Vector3(0, .1, 0), destino, viaja);
+  peonia.scale.setScalar(lerp(1.1, ramo.flores[0].userData.base, viaja));
+  peonia.rotation.set(lerp(.9, .05, viaja), t * .25, 0);
+  peonia.visible = t < 5.25;
+  // ramo: cada flor crece por turnos; después papel, verde y lazo
+  ramo.flores.forEach((f, i) => {
+    const k = i === 0 ? (t >= 5.25 ? 1 : 0) : easeOut(tramo(t, 3.9 + i * .11, 4.6 + i * .11));
+    f.scale.setScalar(Math.max(.001, f.userData.base * k));
+    f.setApertura(i === 0 ? 1 : lerp(.2, 1, k));
+  });
+  const envuelve = easeOut(tramo(t, 5, 6.1));
+  resto.forEach(c => { c.visible = envuelve > .01; c.scale.set(1, Math.max(.001, envuelve), 1); });
+  ramo.rotation.y = t * .22 + .4;
+  // cámara: cerca de la flor y luego se aleja para ver el ramo
+  const lejos = ease(tramo(t, 3.4, 6.2));
+  const ang = t * .22;
+  const d = lerp(5.2, 12.5, lejos);
+  camara.position.set(Math.sin(ang) * d * .25, lerp(1.4, 1.8, lejos), Math.cos(ang * .5) * d);
+  camara.lookAt(0, lerp(.2, .25, lejos), 0);
+  camara.updateProjectionMatrix();
+  // pétalos
+  for (let i = 0; i < N; i++) {
+    const a = datos[i];
+    const y = 6 - ((a.y + t * a.v) % 12);
+    v.set(a.x + Math.sin(t + i) * .4, y, a.z);
+    qq.setFromEuler(e.set(a.r + t * a.w, a.r * 2 + t * .5, a.r));
+    m.compose(v, qq, s.setScalar(.8));
+    caen.setMatrixAt(i, m);
+  }
+  caen.instanceMatrix.needsUpdate = true;
+  renderer.render(scene, camara);
+};
+window.cuadro(0);
+window.listo = true;
+</script>
+</body>
+</html>

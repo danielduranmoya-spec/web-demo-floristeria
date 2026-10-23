@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pétalo &amp; Musgo — Floristería en Mérida · Ramos con entrega en 2 horas</title>
+  <meta name="description" content="Floristería de autor en el centro de Mérida (Badajoz). Diseña tu ramo en 3D, pide por WhatsApp y te lo llevamos en 2 horas. Flor de temporada, bodas, eventos y suscripción floral. Concepto de web de Daniel Durán.">
+  <meta name="theme-color" content="#22382B">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://danielduranmoya-spec.github.io/web-demo-floristeria/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Pétalo &amp; Musgo">
+  <meta property="og:title" content="Pétalo &amp; Musgo — Floristería en Mérida">
+  <meta property="og:description" content="Diseña tu ramo en 3D y recíbelo en 2 horas en cualquier punto de Mérida. Flor de temporada, sin espuma floral.">
+  <meta property="og:url" content="https://danielduranmoya-spec.github.io/web-demo-floristeria/">
+  <meta property="og:image" content="https://danielduranmoya-spec.github.io/web-demo-floristeria/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Gloock&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="video/asi-nace.jpg" as="image">
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- three.js para las escenas 3D (versión fijada) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Florist",
+    "name": "Pétalo & Musgo",
+    "description": "Floristería de autor en Mérida: ramos de temporada, bodas, eventos y suscripción floral con entrega en 2 horas (concepto de web, negocio ficticio).",
+    "url": "https://danielduranmoya-spec.github.io/web-demo-floristeria/",
+    "image": "https://danielduranmoya-spec.github.io/web-demo-floristeria/img/og.jpg",
+    "telephone": "+34600000000",
+    "priceRange": "€€",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle Santa Eulalia, 41",
+      "postalCode": "06800",
+      "addressLocality": "Mérida",
+      "addressRegion": "Badajoz",
+      "addressCountry": "ES"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 38.9172, "longitude": -6.3436 },
+    "areaServed": "Mérida",
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:30", "closes": "14:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "17:00", "closes": "20:30" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:30", "closes": "14:30" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "13:30" }
+    ],
+    "makesOffer": [
+      { "@type": "Offer", "name": "Ramo de temporada S (7 flores)", "price": "35", "priceCurrency": "EUR" },
+      { "@type": "Offer", "name": "Ramo de temporada M (11 flores)", "price": "55", "priceCurrency": "EUR" },
+      { "@type": "Offer", "name": "Ramo de temporada L (17 flores)", "price": "85", "priceCurrency": "EUR" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "¿Hacéis entregas el mismo día en Mérida?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. Si pides antes de las 18:00 de lunes a viernes (12:30 el sábado), te llevamos el ramo en 2 horas a cualquier punto de Mérida por 5 €." } },
+      { "@type": "Question", "name": "¿Cuánto duran las flores?", "acceptedAnswer": { "@type": "Answer", "text": "Entre 5 y 10 días según la flor. Cambia el agua cada dos días y corta el tallo en diagonal un centímetro." } },
+      { "@type": "Question", "name": "¿Usáis espuma floral?", "acceptedAnswer": { "@type": "Answer", "text": "No. Montamos con agua, rejilla de alambre y musgo reutilizable, sin espuma floral, que es un microplástico." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-logo" viewBox="0 0 40 40"><path d="M20 35c0-9 0-14 0-17" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M20 22c-5 .5-9-2.5-10-7 4.5-.5 9 2 10 7zM20 22c5 .5 9-2.5 10-7-4.5-.5-9 2-10 7zM20 19c-3-3-3.5-8.5 0-13 3.5 4.5 3 10 0 13z" fill="currentColor"/><path d="M20 30c-3.5-.5-6.5-2.6-7.5-6 3.6 0 6.4 2 7.5 6z" fill="currentColor" opacity=".55"/></symbol>
+    <symbol id="i-flor" viewBox="0 0 100 100"><g fill="currentColor"><ellipse cx="50" cy="27" rx="15" ry="23"/><ellipse cx="50" cy="27" rx="15" ry="23" transform="rotate(72 50 50)"/><ellipse cx="50" cy="27" rx="15" ry="23" transform="rotate(144 50 50)"/><ellipse cx="50" cy="27" rx="15" ry="23" transform="rotate(216 50 50)"/><ellipse cx="50" cy="27" rx="15" ry="23" transform="rotate(288 50 50)"/></g><g fill="#fff" opacity=".35"><ellipse cx="50" cy="36" rx="9" ry="14" transform="rotate(36 50 50)"/><ellipse cx="50" cy="36" rx="9" ry="14" transform="rotate(108 50 50)"/><ellipse cx="50" cy="36" rx="9" ry="14" transform="rotate(180 50 50)"/><ellipse cx="50" cy="36" rx="9" ry="14" transform="rotate(252 50 50)"/><ellipse cx="50" cy="36" rx="9" ry="14" transform="rotate(324 50 50)"/></g><circle cx="50" cy="50" r="8" fill="#F4C542"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7.5 5h3v14h-3zM13.5 5h3v14h-3z" fill="currentColor"/></symbol>
+    <symbol id="i-drag" viewBox="0 0 24 24"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M4 12h16" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera" data-cabecera>
+    <div class="concepto">
+      <div class="wrap concepto__in">
+        <p><span class="concepto__tag">Concepto</span> Floristería ficticia<span class="concepto__largo">: ejemplo de web interactiva 3D diseñada por Daniel Durán</span>.</p>
+        <a href="https://danielduranmoya-spec.github.io/#contacto">Quiero una web así <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="wrap cabecera__in">
+      <a class="logo" href="#inicio" aria-label="Pétalo y Musgo, ir al inicio">
+        <svg class="logo__marca" aria-hidden="true"><use href="#i-logo"/></svg>
+        <span class="logo__nombre">Pétalo <em>&amp;</em> Musgo</span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#ramos">Ramos</a>
+        <a href="#configura">Diseña el tuyo</a>
+        <a href="#asi-nace">Así nace</a>
+        <a href="#servicios">Bodas y eventos</a>
+        <a href="#visitanos">Visítanos</a>
+      </nav>
+      <a class="btn btn--musgo btn--peq cabecera__cta" href="https://wa.me/34600000000?text=Hola%20P%C3%A9talo%20%26%20Musgo%2C%20quiero%20encargar%20un%20ramo" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg> Pedir</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-btn>
+        <svg aria-hidden="true"><use href="#i-menu"/></svg><span class="sr-only">Abrir menú</span>
+      </button>
+    </div>
+    <div class="menu-movil" id="menu-movil" data-menu hidden>
+      <nav aria-label="Menú móvil">
+        <a href="#ramos">Ramos del día</a>
+        <a href="#configura">Diseña tu ramo</a>
+        <a href="#asi-nace">Así nace un ramo</a>
+        <a href="#servicios">Bodas y eventos</a>
+        <a href="#temporada">Temporada</a>
+        <a href="#visitanos">Visítanos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- ===================== INICIO ===================== -->
+    <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+      <canvas class="hero__lienzo" id="lienzo-inicio" aria-hidden="true"></canvas>
+      <img class="hero__respaldo" src="video/asi-nace.jpg" alt="" width="1280" height="720">
+      <div class="wrap hero__in">
+        <p class="eyebrow">Floristería de autor · Mérida · desde 2009</p>
+        <h1 class="hero__titulo" id="hero-titulo" data-letras>Flores que se abren <em>al verte</em></h1>
+        <p class="hero__lede">Ramos de temporada montados a mano en la calle Santa Eulalia. Diseña el tuyo en 3D y te lo llevamos en <strong>2 horas</strong> a cualquier punto de Mérida.</p>
+        <div class="hero__acciones">
+          <a class="btn btn--peonia" href="#configura">Diseñar mi ramo</a>
+          <a class="btn btn--linea" href="#ramos">Ver ramos del día</a>
+        </div>
+        <ul class="hero__datos" aria-label="Lo esencial">
+          <li><strong>2 h</strong><span>entrega en Mérida</span></li>
+          <li><strong>0</strong><span>espuma floral</span></li>
+          <li><strong>4,9★</strong><span>312 reseñas*</span></li>
+        </ul>
+      </div>
+      <p class="hero__scroll" aria-hidden="true"><span></span>Baja y viaja entre pétalos</p>
+    </section>
+
+    <div class="cinta" aria-hidden="true">
+      <div class="cinta__pista">
+        <span>Peonías</span><i>✿</i><span>Rosas de jardín</span><i>✿</i><span>Tulipanes</span><i>✿</i><span>Anémonas</span><i>✿</i><span>Eucalipto</span><i>✿</i><span>Ranúnculos</span><i>✿</i><span>Lavanda de La Serena</span><i>✿</i>
+        <span>Peonías</span><i>✿</i><span>Rosas de jardín</span><i>✿</i><span>Tulipanes</span><i>✿</i><span>Anémonas</span><i>✿</i><span>Eucalipto</span><i>✿</i><span>Ranúnculos</span><i>✿</i><span>Lavanda de La Serena</span><i>✿</i>
+      </div>
+    </div>
+
+    <!-- ===================== RAMOS DEL DÍA ===================== -->
+    <section class="seccion ramos" id="ramos" aria-labelledby="ramos-titulo">
+      <div class="wrap">
+        <div class="cabeza">
+          <p class="eyebrow">Hoy en el taller</p>
+          <h2 id="ramos-titulo" data-letras>Ramos del día</h2>
+          <p class="cabeza__txt">Cuatro ramos que salen cada mañana con la flor que llega del mercado. Pulsa uno y lo cargamos en el diseñador para que lo cambies a tu gusto.</p>
+        </div>
+        <div class="ramos__grid" data-ramos></div>
+      </div>
+    </section>
+
+    <!-- ===================== CONFIGURADOR 3D ===================== -->
+    <section class="seccion config" id="configura" aria-labelledby="config-titulo">
+      <div class="wrap config__in">
+        <div class="config__escena">
+          <canvas class="config__lienzo" id="lienzo-ramo" aria-label="Vista 3D del ramo que estás diseñando. Arrastra para girarlo."></canvas>
+          <img class="config__respaldo" src="video/asi-nace.jpg" alt="" width="1280" height="720">
+          <p class="config__pista"><svg aria-hidden="true"><use href="#i-drag"/></svg> Arrastra para girar</p>
+          <p class="config__resumen" data-resumen aria-live="polite"></p>
+        </div>
+        <form class="config__panel" data-config>
+          <p class="eyebrow">Diseñador de ramos</p>
+          <h2 id="config-titulo" data-letras>Diseña tu ramo</h2>
+
+          <fieldset>
+            <legend>1 · La flor</legend>
+            <div class="chips" data-opciones="tipo"></div>
+          </fieldset>
+          <fieldset>
+            <legend>2 · El color <span data-color-nombre></span></legend>
+            <div class="muestras" data-opciones="color"></div>
+          </fieldset>
+          <fieldset>
+            <legend>3 · El tamaño</legend>
+            <div class="chips chips--tam" data-opciones="tam"></div>
+          </fieldset>
+          <fieldset>
+            <legend>4 · El papel</legend>
+            <div class="chips" data-opciones="papel"></div>
+          </fieldset>
+          <fieldset class="config__extra">
+            <legend>5 · Entrega y tarjeta</legend>
+            <div class="chips" data-opciones="entrega"></div>
+            <label class="campo">
+              <span>¿Para cuándo?</span>
+              <input type="date" name="fecha" data-fecha>
+            </label>
+            <label class="campo campo--ancho">
+              <span>Mensaje de la tarjeta <small data-cuenta>0/120</small></span>
+              <textarea name="tarjeta" rows="2" maxlength="120" placeholder="Feliz cumpleaños, Carmen. Que florezca todo." data-tarjeta></textarea>
+            </label>
+          </fieldset>
+
+          <div class="config__total">
+            <p><span>Total</span> <strong data-total>55 €</strong> <small>IVA incluido</small></p>
+            <a class="btn btn--musgo" href="#" target="_blank" rel="noopener" data-pedir><svg aria-hidden="true"><use href="#i-whatsapp"/></svg> Pedir por WhatsApp</a>
+          </div>
+          <p class="nota">Te contestamos con una foto del ramo antes de que salga del taller. Pago con Bizum, tarjeta o en tienda.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== VÍDEO INTERACTIVO ===================== -->
+    <section class="seccion nace" id="asi-nace" aria-labelledby="nace-titulo">
+      <div class="wrap">
+        <div class="cabeza cabeza--claro">
+          <p class="eyebrow">Vídeo interactivo</p>
+          <h2 id="nace-titulo" data-letras>Así nace un ramo</h2>
+          <p class="cabeza__txt">Ocho segundos que en el taller son tres días. Dale al play, salta de capítulo o <strong>arrastra sobre el vídeo</strong> para abrir y cerrar la peonía a tu ritmo.</p>
+        </div>
+        <div class="reproductor" data-video>
+          <div class="reproductor__marco" data-arrastre>
+            <video playsinline muted loop preload="metadata" poster="video/asi-nace.jpg" aria-describedby="nace-desc">
+              <source src="video/asi-nace.webm" type="video/webm">
+              <source src="video/asi-nace.mp4" type="video/mp4">
+            </video>
+            <div class="reproductor__nota" data-nota aria-live="polite"></div>
+            <button class="reproductor__play" type="button" data-play aria-label="Reproducir"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
+            <p class="reproductor__arrastra" aria-hidden="true"><svg><use href="#i-drag"/></svg> Arrastra</p>
+          </div>
+          <div class="reproductor__barra">
+            <input type="range" min="0" max="1000" value="0" step="1" aria-label="Momento del vídeo" data-tiempo>
+            <div class="reproductor__marcas" data-marcas></div>
+          </div>
+          <ol class="capitulos" data-capitulos></ol>
+          <p class="sr-only" id="nace-desc">Animación 3D: una peonía rosa se abre desde el capullo, después se suman más flores y eucalipto y el ramo termina envuelto en papel kraft con un lazo amarillo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TEMPORADA ===================== -->
+    <section class="seccion temporada" id="temporada" aria-labelledby="temporada-titulo">
+      <div class="wrap">
+        <div class="cabeza">
+          <p class="eyebrow">Calendario de flor</p>
+          <h2 id="temporada-titulo" data-letras>Cada mes, su flor</h2>
+          <p class="cabeza__txt">Trabajamos con flor de temporada porque dura más, viaja menos y cuesta menos. Toca un mes para ver qué hay en el taller.</p>
+        </div>
+        <div class="meses" role="tablist" aria-label="Meses" data-meses></div>
+        <div class="mes-detalle" role="tabpanel" data-mes-detalle aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===================== SERVICIOS ===================== -->
+    <section class="seccion servicios" id="servicios" aria-labelledby="servicios-titulo">
+      <div class="wrap">
+        <div class="cabeza">
+          <p class="eyebrow">Más allá del ramo</p>
+          <h2 id="servicios-titulo" data-letras>Bodas, casas y despedidas</h2>
+        </div>
+        <div class="servicios__grid">
+          <article class="servicio servicio--grande">
+            <p class="servicio__num">01</p>
+            <h3>Bodas en Mérida</h3>
+            <p>Ramo de novia, prendidos, iglesia y banquete. Hemos vestido bodas en la concatedral de Santa María, en el Parador y en fincas de Las Vegas Altas. Primera cita con prueba de flor sin coste.</p>
+            <p class="servicio__precio">Ramo de novia desde 120 €</p>
+          </article>
+          <article class="servicio">
+            <p class="servicio__num">02</p>
+            <h3>Suscripción floral</h3>
+            <p>Un ramo de temporada en casa o en la oficina cada semana o cada quince días. Lo pausas cuando quieras.</p>
+            <p class="servicio__precio">Desde 29 € / semana</p>
+          </article>
+          <article class="servicio">
+            <p class="servicio__num">03</p>
+            <h3>Empresas y eventos</h3>
+            <p>Recepciones, mesas de congreso, escaparates y el Festival de Teatro Clásico: centros que aguantan una semana de calor emeritense.</p>
+            <p class="servicio__precio">Presupuesto en 24 h</p>
+          </article>
+          <article class="servicio">
+            <p class="servicio__num">04</p>
+            <h3>Despedidas</h3>
+            <p>Coronas, centros y ramos para el tanatorio, con entrega directa y con todo el cuidado. Llámanos a cualquier hora.</p>
+            <p class="servicio__precio">Atención 24 h</p>
+          </article>
+          <article class="servicio">
+            <p class="servicio__num">05</p>
+            <h3>Talleres de sábado</h3>
+            <p>Dos horas para aprender a montar un ramo en espiral y llevártelo a casa. Grupos de ocho, con café y flor incluidos.</p>
+            <p class="servicio__precio">45 € por persona</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EL TALLER ===================== -->
+    <section class="seccion taller" id="taller" aria-labelledby="taller-titulo">
+      <div class="wrap taller__in">
+        <div class="taller__txt">
+          <p class="eyebrow">El taller</p>
+          <h2 id="taller-titulo" data-letras>Quince años entre cubos de agua</h2>
+          <p>Lucía Tovar abrió Pétalo &amp; Musgo en 2009 en un antiguo almacén de la calle Santa Eulalia, a dos pasos del Templo de Diana. Empezó con un mostrador y una cámara de frío de segunda mano; hoy somos cuatro floristas y una bici de reparto.</p>
+          <p>Compramos dos veces por semana en el mercado de flor y, en temporada, a viveros de la comarca: lavanda de La Serena, olivo de Tierra de Barros y peonía de un vivero de Badajoz. Nada de espuma floral: agua, alambre y musgo que reutilizamos.</p>
+        </div>
+        <ul class="taller__cifras">
+          <li><strong data-cuenta-a="2009">2009</strong><span>abrimos en Santa Eulalia</span></li>
+          <li><strong data-cuenta-a="18400">18.400</strong><span>ramos entregados en Mérida</span></li>
+          <li><strong data-cuenta-a="146">146</strong><span>bodas desde el primer «sí»</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== OPINIONES ===================== -->
+    <section class="seccion opiniones" aria-labelledby="opiniones-titulo">
+      <div class="wrap">
+        <div class="cabeza">
+          <p class="eyebrow">Lo que dicen</p>
+          <h2 id="opiniones-titulo" data-letras>Ramos que se recuerdan</h2>
+        </div>
+        <div class="opiniones__grid">
+          <figure class="opinion"><blockquote>«Pedí a las cinco un ramo para mi madre y a las seis y media estaba en Nueva Ciudad. La foto que me mandaron antes de salir es un detallazo.»</blockquote><figcaption>Marta G. · ★★★★★</figcaption></figure>
+          <figure class="opinion"><blockquote>«Lucía entendió nuestra boda a la primera: olivo, lavanda y peonía blanca. El ramo duró diez días en un jarrón.»</blockquote><figcaption>Javier y Elena · ★★★★★</figcaption></figure>
+          <figure class="opinion"><blockquote>«Tengo la suscripción quincenal para la consulta y los pacientes preguntan cada vez por las flores.»</blockquote><figcaption>Dra. Paula R. · ★★★★★</figcaption></figure>
+        </div>
+        <p class="nota nota--centro">* Negocio ficticio: reseñas y cifras de ejemplo.</p>
+      </div>
+    </section>
+
+    <!-- ===================== PREGUNTAS ===================== -->
+    <section class="seccion faq" aria-labelledby="faq-titulo">
+      <div class="wrap faq__in">
+        <h2 id="faq-titulo" data-letras>Preguntas frecuentes</h2>
+        <div class="faq__lista">
+          <details><summary>¿Hacéis entregas el mismo día en Mérida?</summary><p>Sí. Si pides antes de las 18:00 de lunes a viernes (12:30 el sábado), te llevamos el ramo en 2 horas a cualquier punto de Mérida por 5 €. A Calamonte, Trujillanos y Valverde de Mérida, 9 €.</p></details>
+          <details><summary>¿Cuánto duran las flores?</summary><p>Entre 5 y 10 días según la flor. Cambia el agua cada dos días, corta el tallo en diagonal un centímetro y aleja el jarrón del sol directo y de la fruta.</p></details>
+          <details><summary>¿Usáis espuma floral?</summary><p>No. Montamos con agua, rejilla de alambre y musgo reutilizable. La espuma floral es un microplástico que no se degrada.</p></details>
+          <details><summary>¿Puedo ver el ramo antes de que salga?</summary><p>Siempre. Te mandamos una foto por WhatsApp cuando está terminado; si quieres cambiar algo, lo cambiamos.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VISÍTANOS ===================== -->
+    <section class="seccion visita" id="visitanos" aria-labelledby="visita-titulo">
+      <div class="wrap visita__in">
+        <div>
+          <p class="eyebrow">Visítanos</p>
+          <h2 id="visita-titulo" data-letras>Calle Santa Eulalia, 41</h2>
+          <p class="visita__dir">06800 Mérida (Badajoz) · a 3 minutos del Templo de Diana<br><small>Dirección ficticia para esta demo.</small></p>
+          <p class="estado" data-estado></p>
+          <table class="horario" data-horario>
+            <caption class="sr-only">Horario de la tienda</caption>
+            <tbody>
+              <tr data-dia="1"><th scope="row">Lunes</th><td>9:30–14:00 · 17:00–20:30</td></tr>
+              <tr data-dia="2"><th scope="row">Martes</th><td>9:30–14:00 · 17:00–20:30</td></tr>
+              <tr data-dia="3"><th scope="row">Miércoles</th><td>9:30–14:00 · 17:00–20:30</td></tr>
+              <tr data-dia="4"><th scope="row">Jueves</th><td>9:30–14:00 · 17:00–20:30</td></tr>
+              <tr data-dia="5"><th scope="row">Viernes</th><td>9:30–14:00 · 17:00–20:30</td></tr>
+              <tr data-dia="6"><th scope="row">Sábado</th><td>9:30–14:30</td></tr>
+              <tr data-dia="0"><th scope="row">Domingo</th><td>10:00–13:30</td></tr>
+            </tbody>
+          </table>
+          <div class="visita__acciones">
+            <a class="btn btn--musgo" href="https://wa.me/34600000000" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg> 600 000 000</a>
+            <a class="btn btn--linea" href="https://www.openstreetmap.org/?mlat=38.9172&amp;mlon=-6.3436#map=18/38.9172/-6.3436" target="_blank" rel="noopener">Cómo llegar</a>
+          </div>
+        </div>
+        <div class="mapa" data-mapa>
+          <div class="mapa__aviso">
+            <p>El mapa es de OpenStreetMap, un servicio externo. Solo lo cargamos si nos dejas.</p>
+            <button class="btn btn--peonia btn--peq" type="button" data-cargar-mapa>Cargar mapa</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="wrap pie__in">
+      <div>
+        <a class="logo logo--pie" href="#inicio"><svg class="logo__marca" aria-hidden="true"><use href="#i-logo"/></svg><span class="logo__nombre">Pétalo <em>&amp;</em> Musgo</span></a>
+        <p>Floristería en Mérida desde 2009.<br>Calle Santa Eulalia, 41 · 06800 Mérida</p>
+      </div>
+      <nav aria-label="Pie">
+        <a href="#configura">Diseña tu ramo</a>
+        <a href="#servicios">Bodas y eventos</a>
+        <a href="#temporada">Temporada</a>
+        <a href="#visitanos">Horario</a>
+      </nav>
+      <nav aria-label="Legal">
+        <a href="aviso-legal.html">Aviso legal</a>
+        <a href="privacidad.html">Privacidad</a>
+        <a href="cookies.html">Cookies</a>
+        <button class="enlace" type="button" data-abrir-cookies>Configurar cookies</button>
+      </nav>
+    </div>
+    <p class="wrap pie__fin">© 2026 Pétalo &amp; Musgo · Concepto de web de <a href="https://danielduranmoya-spec.github.io/">Daniel Durán</a>. Negocio, datos y reseñas ficticios.</p>
+  </footer>
+
+  <a class="wa-flotante" href="https://wa.me/34600000000?text=Hola%20P%C3%A9talo%20%26%20Musgo" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+
+  <div class="cookies" role="region" aria-label="Aviso de cookies" data-cookies hidden>
+    <p class="cookies__titulo">Tu elección sobre contenido externo</p>
+    <p>No usamos cookies de publicidad ni de analítica. Si aceptas, cargamos el mapa de OpenStreetMap, que es un servicio de terceros. <a href="cookies.html">Más información</a></p>
+    <div class="cookies__acciones">
+      <button class="btn btn--linea btn--peq" type="button" data-consent="rechazado">Rechazar</button>
+      <button class="btn btn--musgo btn--peq" type="button" data-consent="aceptado">Aceptar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script type="module" src="escena.js"></script>
+</body>
+</html>
