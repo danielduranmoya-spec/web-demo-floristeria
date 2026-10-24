@@ -98,9 +98,10 @@ window.cuadro = function (t) {
   // cámara: cerca de la flor y luego se aleja para ver el ramo
   const lejos = ease(tramo(t, 3.4, 6.2));
   const ang = t * .22;
-  const d = lerp(5.2, 12.5, lejos);
+  const vertical = H > W;   // formato TikTok: más distancia para que quepa el ramo
+  const d = lerp(vertical ? 6.8 : 5.2, vertical ? 21 : 12.5, lejos);
   camara.position.set(Math.sin(ang) * d * .25, lerp(1.4, 1.8, lejos), Math.cos(ang * .5) * d);
-  camara.lookAt(0, lerp(.2, .25, lejos), 0);
+  camara.lookAt(0, lerp(.2, vertical ? -1.05 : .25, lejos), 0);
   camara.updateProjectionMatrix();
   // pétalos
   for (let i = 0; i < N; i++) {

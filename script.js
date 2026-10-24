@@ -12,10 +12,10 @@
   var WHATSAPP = '34600000000';
   var ENVIO = 5;   // € por entrega a domicilio en Mérida
   var TIPOS = {
-    peonia: { nombre: 'Peonía', precio: 59, colores: [['Rosa peonía', '#E8A0B4'], ['Coral', '#F08A7E'], ['Blanco nata', '#F6EEE6'], ['Fucsia', '#C2457A']] },
-    rosa: { nombre: 'Rosa de jardín', precio: 52, colores: [['Roja', '#C8324B'], ['Rosa empolvado', '#E7B3B8'], ['Melocotón', '#F3B38A'], ['Blanca', '#F7F2EC']] },
-    tulipan: { nombre: 'Tulipán', precio: 42, colores: [['Amarillo polen', '#F4C542'], ['Naranja', '#F08A3C'], ['Lila', '#B79AD8'], ['Rojo', '#D2384A']] },
-    anemona: { nombre: 'Anémona', precio: 48, colores: [['Blanca', '#F6F1EC'], ['Roja', '#C42B3A'], ['Violeta', '#6F4AA0'], ['Rosa', '#E58FB0']] }
+    peonia: { nombre: 'Peonía', plural: 'peonías', precio: 59, colores: [['Rosa peonía', '#E8A0B4'], ['Coral', '#F08A7E'], ['Blanco nata', '#F6EEE6'], ['Fucsia', '#C2457A']] },
+    rosa: { nombre: 'Rosa de jardín', plural: 'rosas de jardín', precio: 52, colores: [['Roja', '#C8324B'], ['Rosa empolvado', '#E7B3B8'], ['Melocotón', '#F3B38A'], ['Blanca', '#F7F2EC']] },
+    tulipan: { nombre: 'Tulipán', plural: 'tulipanes', precio: 42, colores: [['Amarillo polen', '#F4C542'], ['Naranja', '#F08A3C'], ['Lila', '#B79AD8'], ['Rojo', '#D2384A']] },
+    anemona: { nombre: 'Anémona', plural: 'anémonas', precio: 48, colores: [['Blanca', '#F6F1EC'], ['Roja', '#C42B3A'], ['Violeta', '#6F4AA0'], ['Rosa', '#E58FB0']] }
   };
   var TAMANOS = { s: { nombre: 'S', flores: 7, factor: .65 }, m: { nombre: 'M', flores: 11, factor: 1 }, l: { nombre: 'L', flores: 17, factor: 1.55 } };
   var PAPELES = { kraft: 'Kraft', nata: 'Nata y rosa', musgo: 'Verde musgo' };
@@ -142,7 +142,7 @@
     var tipo = TIPOS[estado.tipo], color = tipo.colores[estado.color], tam = TAMANOS[estado.tam];
     $('[data-color-nombre]').textContent = '· ' + color[0];
     $('[data-total]').textContent = euros(precio());
-    $('[data-resumen]').textContent = 'Ramo ' + tam.nombre + ' · ' + tam.flores + ' ' + tipo.nombre.toLowerCase() + (tam.flores > 1 ? 's' : '') + ' ' + color[0].toLowerCase();
+    $('[data-resumen]').textContent = 'Ramo ' + tam.nombre + ' · ' + tam.flores + ' ' + tipo.plural + ' · ' + color[0].toLowerCase();
     var tarjeta = $('[data-tarjeta]').value.trim(), fecha = $('[data-fecha]').value;
     var msg = 'Hola Pétalo & Musgo, quiero este ramo:\n' +
       '· Flor: ' + tipo.nombre + ' (' + color[0] + ')\n' +
